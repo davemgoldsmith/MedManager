@@ -4,15 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.cnm.bootcamp.david.medmanager.MainActivity">
+    tools:context="edu.cnm.bootcamp.david.medmanager.activities.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
 
-    <TextView
+    <TableRow
+        android:layout_width="0dp"
+        android:layout_height="283dp"
+        android:id="@+id/tableRow"
+        app:layout_constraintRight_toLeftOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonAlarm"
+
+        android:layout_width="98dp"
+        android:layout_height="49dp"
+        android:text="Alarm"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintRight_toLeftOf="@+id/buttonAdjust"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/buttonAdjust"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <Button
+        android:id="@+id/buttonAdjust"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Adjust"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintRight_toLeftOf="@+id/buttonClearAlarm"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="33dp" />
+
+    <Button
+        android:id="@+id/buttonClearAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Alarm"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/buttonAdjust"
+        tools:layout_constraintBaseline_creator="1" />
+
+
+    <Button
+        android:id="@+id/medListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:text="Med List"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonClearAlarm"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="18dp" />
+
+
+
+    <ListView
+        android:id="@+id/queryList"
+        android:layout_width="0dp"
+        android:layout_height="318dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="-2dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
