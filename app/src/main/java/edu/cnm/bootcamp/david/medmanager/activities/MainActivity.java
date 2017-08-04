@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Dao<Schedule, Integer> dao = getHelper().getScheduleDao();
-           // List<Medication> medications = dao.queryForAll();
+
             QueryBuilder<Schedule, Integer> query = dao.queryBuilder();
             query.orderBy("TIME", true);
             List<Schedule> schedules = dao.query(query.prepare());
@@ -95,22 +95,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //takes to activity to add a row to db
+        Button mymedsbutton = (Button) findViewById(R.id.mymedsbutton);
+        mymedsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myMedsPage = new Intent(MainActivity.this, DataEntryActivity.class);
+                startActivity(myMedsPage);
+            }
+        });
 
     }
-
-   // @Override
-   // protected void onListItemClick(ListView l, View v, int position, long id) {
-
-   // }
 
     @Override
     protected void onDestroy() {
         releaseHelper();
         super.onDestroy();
     }
-
-
-
 
 }

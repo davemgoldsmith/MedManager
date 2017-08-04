@@ -2,14 +2,19 @@
     <string name="app_name">MedManager</string>
     <string name="title_activity_main2">Main2Activity</string>
 
-    //
-    <string name="alarm">Alarm</string>
-    <string name="title_activity_drawer">drawer</string>
 
+    <string name="title_activity_drawer"></string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="clear_alarm">Clear Alarm</string>
+    <string name="alarm">Alarm</string>
+    <string name="buttonAdjMed">Adjust Med</string>
+    <string name="buttonAdjSched">Adjust Schedule</string>
+    <string name="adjust">Adjust</string>
+    <string name="med_list">Med List</string>
+    <string name="my_meds">My Meds</string>
 
 
 </resources>

@@ -8,8 +8,9 @@
 
     <TimePicker
         android:id="@+id/timePicker"
-        android:layout_width="389dp"
-        android:layout_height="353dp"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="4dp" />
+        android:layout_width="542dp"
+        android:layout_height="332dp"
+        tools:layout_editor_absoluteX="-22dp"
+        tools:layout_editor_absoluteY="-4dp"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

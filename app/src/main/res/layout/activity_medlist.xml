@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.cnm.bootcamp.david.medmanager.activities.MedListActivity">
+    tools:context="edu.cnm.bootcamp.david.medmanager.activities.MedListActivity"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+
 
 
     <Button
@@ -12,48 +16,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Database"
-        tools:layout_constraintLeft_creator="1"
+        android:visibility="visible"
+        android:layout_marginStart="7dp"
         tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="26dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="31dp"
-        app:layout_constraintLeft_toRightOf="@+id/button2" />
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/button2" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/buttonAdjMed"
+
+        android:layout_marginStart="48dp"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/databaseButton"
-        android:layout_marginStart="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="22dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/buttonAdjSched"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/databaseButton"
-        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="49dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="22dp" />
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="89dp"
         android:text="TextView"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="442dp"
-        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="196dp" />
+        app:layout_constraintHorizontal_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
