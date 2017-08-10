@@ -55,7 +55,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
             Log.e(OrmHelper.class.getName(), "Can't create databases", e);
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -83,8 +82,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
         Medication med = new Medication ();
         med.setName("Groovy Drug");
-        med.setDosage(50);
-        med.setFrequency(3);
+        med.setDosage("50");
+        //med.setFrequency("3");
         getMedicationDao().create(med);
 
         Schedule sched = new Schedule();
@@ -95,8 +94,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
         med = new Medication ();
         med.setName("Happy Drug");
-        med.setDosage(10);
-        med.setFrequency(2);
+        med.setDosage("10");
+        //med.setFrequency("2");
         getMedicationDao().create(med);
 
         sched = new Schedule();
@@ -107,8 +106,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
         med = new Medication ();
         med.setName("Sleepy Drug");
-        med.setDosage(100);
-        med.setFrequency(1);
+        med.setDosage("100");
+        //med.setFrequency("1");
         getMedicationDao().create(med);
 
         sched = new Schedule();
@@ -118,8 +117,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
         med = new Medication ();
         med.setName("Focus Drug");
-        med.setDosage(10);
-        med.setFrequency(1);
+        med.setDosage("10");
+       // med.setFrequency("1");
         getMedicationDao().create(med);
 
         sched = new Schedule();
@@ -130,12 +129,12 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
         med = new Medication ();
         med.setName("Wake Up Drug");
-        med.setDosage(150);
-        med.setFrequency(3);
+        med.setDosage("150");
+       // med.setFrequency("3");
         getMedicationDao().create(med);
 
         sched = new Schedule();
-        sched.setTime("00");
+        sched.setTime("0800");
         sched.setMedication(med);
         getScheduleDao().create (sched);
 

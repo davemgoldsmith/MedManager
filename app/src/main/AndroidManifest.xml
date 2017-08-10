@@ -16,19 +16,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".activities.Service"
+            android:enabled="true" />
+
+        <receiver
+            android:name=".activities.Receiver"
+            android:enabled="true" />
+
         <activity
             android:name=".activities.MedListActivity"
-            android:label="@string/title_activity_main2"
+            android:label="MedListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.SchedulerActivity" />
         <activity
             android:name=".helpers.AndroidDatabaseManager"
             android:theme="@style/Theme.AppCompat.Light" />
-        <activity
-            android:name=".activities.drawer"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.DataEntryActivity"></activity>
+        <activity android:name=".activities.MedEditActivity" />
+
+        <service android:name=".services.TestService" />
+
+        <activity android:name=".activities.SchedulerActivity"></activity>
     </application>
 
 </manifest>

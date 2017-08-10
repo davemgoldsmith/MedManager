@@ -19,11 +19,11 @@ public class Medication {
     @DatabaseField(columnName= "NAME", width = 200)
     private String name;
 
-    @DatabaseField(columnName= "FREQUENCY")
-    private int frequency;
+    //@DatabaseField(columnName= "FREQUENCY")
+    //private String frequency;
 
     @DatabaseField(columnName= "DOSAGE")
-    private float dosage;
+    private String dosage;
 
     @ForeignCollectionField(eager = false)
     private ForeignCollection<Schedule> scheds;
@@ -44,19 +44,19 @@ public class Medication {
         this.name = name;
     }
 
-    public int getFrequency() {
-        return frequency;
-    }
+//    public String getFrequency() {
+//        return frequency;
+//    }
+//
+//    public void setFrequency(String frequency) {
+//        this.frequency = frequency;
+//    }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-    }
-
-    public float getDosage() {
+    public String getDosage() {
         return dosage;
     }
 
-    public void setDosage(float dosage) {
+    public void setDosage(String dosage) {
         this.dosage = dosage;
     }
 

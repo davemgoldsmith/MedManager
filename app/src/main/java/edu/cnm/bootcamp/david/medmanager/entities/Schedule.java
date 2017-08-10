@@ -20,11 +20,11 @@ public class Schedule {
     @DatabaseField(columnName = "MEDICATION_ID", foreign = true, foreignAutoRefresh = true)
     private Medication medication;
 
-    @DatabaseField(columnName= "FREQUENCY")
-    private int frequency;
+    //@DatabaseField(columnName= "FREQUENCY")
+   //private String frequency;
 
-    @DatabaseField(columnName= "DOSAGE")
-    private float dosage;
+    //@DatabaseField(columnName= "DOSAGE")
+    //private String dosage;
 
     @DatabaseField(columnName= "TIME")
     private String time;
@@ -51,21 +51,19 @@ public class Schedule {
         this.medication = medication;
     }
 
-    public int getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-    }
-
-    public float getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(float dosage) {
-        this.dosage = dosage;
-    }
+//    public String getFrequency() {return frequency;    }
+//
+//    public void setFrequency(String frequency) {
+//        this.frequency = frequency;
+//    }
+//
+//    public String getDosage() {
+//        return dosage;
+//    }
+//
+//    public void setDosage(String dosage) {
+//        this.dosage = dosage;
+//    }
 
     public String getTime() {
         return time;
