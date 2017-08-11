@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cnm.bootcamp.david.medmanager.R;
+//import edu.cnm.bootcamp.david.medmanager.R;
 import edu.cnm.bootcamp.david.medmanager.entities.Medication;
 import edu.cnm.bootcamp.david.medmanager.entities.Schedule;
 
@@ -80,63 +80,35 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     /* seed data */
     private void populateDB() throws SQLException {
 
-        Medication med = new Medication ();
-        med.setName("Groovy Drug");
-        med.setDosage("50");
-        //med.setFrequency("3");
-        getMedicationDao().create(med);
+//        Medication med = new Medication ();
+//        med.setName("Groovy Drug");
+//        //med.setDosage("50");
+//        //med.setFrequency("3");
+//        getMedicationDao().create(med);
 
         Schedule sched = new Schedule();
+        sched.setName("Groovy Drug");
         sched.setTime("0800");
-        sched.setMedication(med);
+//        sched.setMedication(med);
+        sched.setDosage("50");
         getScheduleDao().create(sched);
 
 
-        med = new Medication ();
-        med.setName("Happy Drug");
-        med.setDosage("10");
-        //med.setFrequency("2");
-        getMedicationDao().create(med);
+//        med = new Medication ();
+//        med.setName("Happy Drug");
+//       // med.setDosage("10");
+//        //med.setFrequency("2");
+//        getMedicationDao().create(med);
 
         sched = new Schedule();
         sched.setTime("0900");
-        sched.setMedication(med);
+        sched.setName("Happy Drug");
+      //  sched.setMedication(med);
+        sched.setDosage("50");
         getScheduleDao().create (sched);
 
 
-        med = new Medication ();
-        med.setName("Sleepy Drug");
-        med.setDosage("100");
-        //med.setFrequency("1");
-        getMedicationDao().create(med);
 
-        sched = new Schedule();
-        sched.setTime("1000");
-        sched.setMedication(med);
-        getScheduleDao().create (sched);
-
-        med = new Medication ();
-        med.setName("Focus Drug");
-        med.setDosage("10");
-       // med.setFrequency("1");
-        getMedicationDao().create(med);
-
-        sched = new Schedule();
-        sched.setTime("0700");
-        sched.setMedication(med);
-        getScheduleDao().create (sched);
-
-
-        med = new Medication ();
-        med.setName("Wake Up Drug");
-        med.setDosage("150");
-       // med.setFrequency("3");
-        getMedicationDao().create(med);
-
-        sched = new Schedule();
-        sched.setTime("0800");
-        sched.setMedication(med);
-        getScheduleDao().create (sched);
 
     }
 

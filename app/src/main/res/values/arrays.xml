@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="time">
+        <item>0000</item>
+        <item>0100</item>
+        <item>0200</item>
+        <item>0300</item>
+        <item>0400</item>
+        <item>0500</item>
+        <item>0600</item>
+        <item>0700</item>
+        <item>0800</item>
+        <item>0900</item>
+        <item>1000</item>
+        <item>1100</item>
+        <item>1200</item>
+        <item>1300</item>
+        <item>1400</item>
+        <item>1500</item>
+        <item>1600</item>
+        <item>1700</item>
+        <item>1800</item>
+        <item>1900</item>
+        <item>2000</item>
+        <item>2100</item>
+        <item>2200</item>
+        <item>2300</item>
+
+    </string-array>
+
+</resources>

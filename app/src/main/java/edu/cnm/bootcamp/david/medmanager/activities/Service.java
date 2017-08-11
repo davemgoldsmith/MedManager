@@ -19,8 +19,8 @@ import edu.cnm.bootcamp.david.medmanager.R;
 public class Service extends IntentService {
 
   private static final String TAG = "Service";
-  private static final String TITLE = "Alarm";
-  private static final String MESSAGE = "Wake the hell up!";
+  private static final String TITLE = "Medication Reminder";
+  private static final String MESSAGE = "Please remember to take your medication.";
 
   public Service() {
     super(TAG);

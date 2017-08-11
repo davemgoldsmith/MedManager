@@ -21,29 +21,33 @@ public class SchedulerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduler);
-        final ToggleButton toggle = (ToggleButton) findViewById(R.id.alarmToggle);
-        toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                TextView text = (TextView) findViewById(R.id.alarmText);
-                Intent intent = new Intent(SchedulerActivity.this, Receiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(SchedulerActivity.this, 0, intent, 0);
-                if (toggle.isChecked()) {
-                    TimePicker picker = (TimePicker) findViewById(R.id.alarmTimePicker);
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-                    calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-                    calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-                    manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-                    text.setText(format.format(calendar.getTime()));
-                } else {
-                    manager.cancel(pending);
-                    text.setText("Alarm Off");
-                }
-            }
-        });
+//        final ToggleButton toggle = (ToggleButton) findViewById(R.id.alarmToggle);
+//        toggle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                TextView text = (TextView) findViewById(R.id.alarmText);
+//                Intent intent = new Intent(SchedulerActivity.this, Receiver.class);
+//                //get intent from schedule.id
+//                //input filter
+//                //implement filter method
+//                //
+//                PendingIntent pending = PendingIntent.getBroadcast(SchedulerActivity.this, 0, intent, 0);
+//                if (toggle.isChecked()) {
+//                    TimePicker picker = (TimePicker) findViewById(R.id.alarmTimePicker);
+//                    Calendar calendar = Calendar.getInstance();
+//                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+//                    calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
+//                    calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
+//                    manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                    manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//                    text.setText(format.format(calendar.getTime()));
+//                } else {
+//                    manager.cancel(pending);
+//                    text.setText("Alarm Off");
+//                }
+//            }
+//        });
     }
     public void onToggleClicked(View view) {
     }

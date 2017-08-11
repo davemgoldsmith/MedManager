@@ -14,8 +14,10 @@ import java.sql.SQLException;
 
 import edu.cnm.bootcamp.david.medmanager.R;
 import edu.cnm.bootcamp.david.medmanager.entities.Medication;
+import edu.cnm.bootcamp.david.medmanager.entities.Schedule;
 import edu.cnm.bootcamp.david.medmanager.helpers.OrmHelper;
 
+//Activity that adds a new medication to the database.
 public class MedEditActivity extends AppCompatActivity {
 
     private OrmHelper dbHelper = null;
@@ -44,25 +46,30 @@ public class MedEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Dao<Medication, Integer> dao = getHelper().getMedicationDao();
-                    Medication medication = new Medication();
+                    Dao<Schedule, Integer> dao = getHelper().getScheduleDao();
+                    Schedule schedule = new Schedule();
 
                     EditText editText = (EditText) findViewById(R.id.editText);
-                    medication.setName(editText.getText().toString());
+                    schedule.setName(editText.getText().toString());
 
                     EditText editText2 = (EditText) findViewById(R.id.editText2);
-                    medication.setDosage(editText2.getText().toString());
+                    schedule.setDosage(editText2.getText().toString());
 
-                    dao.create(medication);
+                    EditText medTime = (EditText) findViewById(R.id.medTime);
+                    schedule.setTime(medTime.getText().toString());
 
+
+                    dao.create(schedule);
+//schedule.getId() -intent for alarm
                     //add intent? to go back to MedListActivity
                     //should repopulate db upon revisiting activity
-                    Intent backToMedList = new Intent (MedEditActivity.this, MedListActivity.class);
-                    startActivity(backToMedList);
+//                    Intent backToMedList = new Intent (MedEditActivity.this, MedListActivity.class);
+//                    startActivity(backToMedList);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+                finish();
 
 
             }

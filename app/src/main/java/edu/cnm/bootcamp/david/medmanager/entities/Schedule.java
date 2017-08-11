@@ -17,14 +17,19 @@ public class Schedule {
     @DatabaseField(columnName = "SCHEDULE_ID", generatedId = true)
     private int id;
 
-    @DatabaseField(columnName = "MEDICATION_ID", foreign = true, foreignAutoRefresh = true)
-    private Medication medication;
+//    @DatabaseField(columnName = "MEDICATION_ID", foreign = true, foreignAutoRefresh = true)
+//    private Medication medication;
+
+
+
+    @DatabaseField(columnName= "NAME", width = 200, unique=true)
+    private String name;
 
     //@DatabaseField(columnName= "FREQUENCY")
    //private String frequency;
 
-    //@DatabaseField(columnName= "DOSAGE")
-    //private String dosage;
+    @DatabaseField(columnName= "DOSAGE")
+    private String dosage;
 
     @DatabaseField(columnName= "TIME")
     private String time;
@@ -41,15 +46,21 @@ public class Schedule {
         return id;
     }
 
-
-
-    public Medication getMedication() {
-        return medication;
+    public String getName() {
+        return name;
     }
 
-    public void setMedication(Medication medication) {
-        this.medication = medication;
+    public void setName(String name) {
+        this.name = name;
     }
+
+//    public Medication getMedication() {
+//        return medication;
+//    }
+//
+//    public void setMedication(Medication medication) {
+//        this.medication = medication;
+//    }
 
 //    public String getFrequency() {return frequency;    }
 //
@@ -57,13 +68,13 @@ public class Schedule {
 //        this.frequency = frequency;
 //    }
 //
-//    public String getDosage() {
-//        return dosage;
-//    }
-//
-//    public void setDosage(String dosage) {
-//        this.dosage = dosage;
-//    }
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
 
     public String getTime() {
         return time;
@@ -75,6 +86,6 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return getTime() + "-" + getMedication().toString();
+        return getName() + "-" + getTime();
     }
 }

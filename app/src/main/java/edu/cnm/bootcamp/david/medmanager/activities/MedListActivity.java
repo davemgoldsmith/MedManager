@@ -3,6 +3,7 @@ package edu.cnm.bootcamp.david.medmanager.activities;
 import android.content.Intent;
 import android.media.MediaCodecInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -24,11 +26,12 @@ import edu.cnm.bootcamp.david.medmanager.entities.Medication;
 import edu.cnm.bootcamp.david.medmanager.entities.Schedule;
 import edu.cnm.bootcamp.david.medmanager.helpers.AndroidDatabaseManager;
 import edu.cnm.bootcamp.david.medmanager.helpers.OrmHelper;
+import edu.cnm.bootcamp.david.medmanager.helpers.ScheduleAdapter;
 
 public class MedListActivity extends AppCompatActivity {
 
     private OrmHelper dbHelper = null;
-    private Medication currentMed = null;
+    private Schedule currentSched = null;
 
 
     private synchronized OrmHelper getHelper() {
@@ -48,47 +51,35 @@ public class MedListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getHelper().getWritableDatabase().close();
         setContentView(R.layout.activity_medlist);
 
-        try {
+        final ListView list = ((ListView) findViewById(R.id.queryList));
 
-            //take the following - create a new method after delete - add from editactivity
-            Dao<Medication, Integer> dao = getHelper().getMedicationDao();
-            QueryBuilder<Medication, Integer> query = dao.queryBuilder();
-            query.orderBy("NAME", true);
-            List<Medication> medications = dao.query(query.prepare());
+        timeSpinner();
 
-            ArrayAdapter<Medication> adapter = new ArrayAdapter<>(this, R.layout.activity_listview, medications);
-            final ListView list = ((ListView) findViewById(R.id.queryList));
-            list.setAdapter(adapter);
-
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<? > parent, View view, int position, long id) {
-                    if (parent.getItemAtPosition(position) == currentMed) {
-                        currentMed = null;
-                        view.setSelected(false);
-                        list.clearChoices();
-                        list.requestLayout();
-                        //disable buttons del and adjust
-                        ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(false);
-                        ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(false);
-                        ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(false);
-                    }else {
-                        currentMed = (Medication) parent.getItemAtPosition(position);
-                        view.setSelected(true);
-                        //enable del and adjust
-                        ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(true);
-                        ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(true);
-                        ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(true);
-
-                    }
-
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<? > parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position) == currentSched) {
+                    currentSched = null;
+                    view.setSelected(false);
+                    list.clearChoices();
+                    list.requestLayout();
+                    //disable buttons del and adjust
+                    ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(false);
+                    ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(false);
+                    ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(false);
+                }else {
+                    currentSched = (Schedule) parent.getItemAtPosition(position);
+                    view.setSelected(true);
+                    //enable buttons del and adjust
+                    ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(true);
+                    ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(true);
+                    ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(true);
                 }
-            });
-        } catch (SQLException ex) {
-            // could throw an exception
-        }
+            }
+        });
 
                 //takes to MedEditActivity to add a row to db
         Button buttonAddNew = (Button) findViewById(R.id.buttonAddNew);
@@ -118,35 +109,83 @@ public class MedListActivity extends AppCompatActivity {
             }
         });
 
-        // takes deletes current(highlighted) med from the database
+        // deletes current(highlighted) med from the database
         Button buttonDeleteMed = (Button) findViewById(R.id.buttonDeleteMed);
         buttonDeleteMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    getHelper().getMedicationDao().delete(currentMed);
-                    reloadDatabase();
+                    getHelper().getScheduleDao().delete(currentSched);
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+                loadSchedules();
             }
         });
+
+
    }
 
-    public void reloadDatabase(){
+    protected void timeSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        String[] times = getResources().getStringArray(R.array.time);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_dropdown, times);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
 
+//    final ToggleButton toggle = (ToggleButton) findViewById(R.id.alarmToggle);
+//        toggle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                TextView text = (TextView) findViewById(R.id.alarmText);
+//                Intent intent = new Intent(SchedulerActivity.this, Receiver.class);
+//                //get intent from schedule.id
+//                //input filter
+//                //implement filter method
+//                //
+//                PendingIntent pending = PendingIntent.getBroadcast(SchedulerActivity.this, 0, intent, 0);
+//                if (toggle.isChecked()) {
+//                    TimePicker picker = (TimePicker) findViewById(R.id.alarmTimePicker);
+//                    Calendar calendar = Calendar.getInstance();
+//                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+//                    calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
+//                    calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
+//                    manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                    manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+//                    text.setText(format.format(calendar.getTime()));
+//                } else {
+//                    manager.cancel(pending);
+//                    text.setText("Alarm Off");
+//                }
+//            }
+//        });
+
+
+
+    @NonNull
+    private void loadSchedules() {
         try {
-            Dao<Medication, Integer> dao = getHelper().getMedicationDao();
-            QueryBuilder<Medication, Integer> query = dao.queryBuilder();
-            query.orderBy("NAME", true);
-            List<Medication> medications = dao.query(query.prepare());
-            ArrayAdapter<Medication> adapter = new ArrayAdapter<>(this, R.layout.activity_listview, medications);
-            final ListView list = ((ListView) findViewById(R.id.queryList));
+            Dao<Schedule, Integer> dao = getHelper().getScheduleDao();
+            QueryBuilder<Schedule, Integer> query = dao.queryBuilder();
+            query.orderBy("NAME", true).orderBy("TIME", true);
+            List<Schedule> schedules = dao.query(query.prepare());
+            ScheduleAdapter adapter = new ScheduleAdapter (this, schedules);
+            ListView list = ((ListView) findViewById(R.id.queryList));
             list.setAdapter(adapter);
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException (e);
         }
-
     }
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadSchedules();
+    }
 }

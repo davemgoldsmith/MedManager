@@ -22,11 +22,11 @@ public class Medication {
     //@DatabaseField(columnName= "FREQUENCY")
     //private String frequency;
 
-    @DatabaseField(columnName= "DOSAGE")
-    private String dosage;
+    //@DatabaseField(columnName= "DOSAGE")
+    //private String dosage;
 
-    @ForeignCollectionField(eager = false)
-    private ForeignCollection<Schedule> scheds;
+//    @ForeignCollectionField(eager = false)
+//    private ForeignCollection<Schedule> scheds;
 
     public Medication(){
 
@@ -52,13 +52,13 @@ public class Medication {
 //        this.frequency = frequency;
 //    }
 
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
+//    public String getDosage() {
+//        return dosage;
+//    }
+//
+//    public void setDosage(String dosage) {
+//        this.dosage = dosage;
+//    }
 
     @Override
     public String toString() {
