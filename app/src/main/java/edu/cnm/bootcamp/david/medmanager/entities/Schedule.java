@@ -6,7 +6,12 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Created by davem on 7/26/2017.
+ * Created by Dave Goldsmith on 7/26/2017.
+ *
+ * Schedule Entity which holds the fields for the medications.
+ * Simple three field, plus ID entity for maintaining information
+ * about medication.
+ *
  */
 
 
@@ -17,24 +22,14 @@ public class Schedule {
     @DatabaseField(columnName = "SCHEDULE_ID", generatedId = true)
     private int id;
 
-//    @DatabaseField(columnName = "MEDICATION_ID", foreign = true, foreignAutoRefresh = true)
-//    private Medication medication;
-
-
-
     @DatabaseField(columnName= "NAME", width = 200, unique=true)
     private String name;
-
-    //@DatabaseField(columnName= "FREQUENCY")
-   //private String frequency;
 
     @DatabaseField(columnName= "DOSAGE")
     private String dosage;
 
     @DatabaseField(columnName= "TIME")
     private String time;
-
-
 
 
     public Schedule (){
@@ -54,20 +49,7 @@ public class Schedule {
         this.name = name;
     }
 
-//    public Medication getMedication() {
-//        return medication;
-//    }
-//
-//    public void setMedication(Medication medication) {
-//        this.medication = medication;
-//    }
 
-//    public String getFrequency() {return frequency;    }
-//
-//    public void setFrequency(String frequency) {
-//        this.frequency = frequency;
-//    }
-//
     public String getDosage() {
         return dosage;
     }
@@ -76,6 +58,7 @@ public class Schedule {
         this.dosage = dosage;
     }
 
+
     public String getTime() {
         return time;
     }
@@ -83,6 +66,7 @@ public class Schedule {
     public void setTime(String time) {
         this.time = time;
     }
+
 
     @Override
     public String toString() {

@@ -1,5 +1,7 @@
 package edu.cnm.bootcamp.david.medmanager.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.MediaCodecInfo;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.cnm.bootcamp.david.medmanager.R;
@@ -34,7 +37,11 @@ import edu.cnm.bootcamp.david.medmanager.helpers.ScheduleAdapter;
 //Med Manager application that sets alarms for medications.
 //
 //Main activity of application.  From this activity, a current list of medications is displayed.
-//From this activity, user is able to select a medication to
+//From this activity, user is able to select a medication in order to either delete or adjust it.
+//The user is also able to add a medication including dosage and time.
+//The time defined will trigger the alarm.
+
+
 public class MedListActivity extends AppCompatActivity {
 
     public static final String MED_MANAGER_SCHEDULE_ID = "medManager.scheduleId";
@@ -83,6 +90,8 @@ public class MedListActivity extends AppCompatActivity {
                 if (parent.getItemAtPosition(position) == currentSched) {
                     currentSched = null;
                     view.setSelected(false);
+                    view.setActivated(false);
+
                     list.clearChoices();
                     list.requestLayout();
                     //disable buttons del and adjust
@@ -93,6 +102,7 @@ public class MedListActivity extends AppCompatActivity {
                 }else {
                     currentSched = (Schedule) parent.getItemAtPosition(position);
                     view.setSelected(true);
+                    view.setActivated(true);
                     //enable buttons del
                     ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(true);
 
@@ -145,41 +155,9 @@ public class MedListActivity extends AppCompatActivity {
         });
    }
 
-//    protected void timeSpinner() {
-//        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-//        String[] times = getResources().getStringArray(R.array.time);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_dropdown, times);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//    }
 
-//    final ToggleButton toggle = (ToggleButton) findViewById(R.id.alarmToggle);
-//        toggle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//                TextView text = (TextView) findViewById(R.id.alarmText);
-//                Intent intent = new Intent(SchedulerActivity.this, Receiver.class);
-//                //get intent from schedule.id
-//                //input filter
-//                //implement filter method
-//                //
-//                PendingIntent pending = PendingIntent.getBroadcast(SchedulerActivity.this, 0, intent, 0);
-//                if (toggle.isChecked()) {
-//                    TimePicker picker = (TimePicker) findViewById(R.id.alarmTimePicker);
-//                    Calendar calendar = Calendar.getInstance();
-//                    SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-//                    calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-//                    calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-//                    manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//                    manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-//                    text.setText(format.format(calendar.getTime()));
-//                } else {
-//                    manager.cancel(pending);
-//                    text.setText("Alarm Off");
-//                }
-//            }
-//        });
+
+//
 
 
     //Original loading of db schedule
@@ -204,5 +182,24 @@ public class MedListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadSchedules();
+    }
+
+    private void unScheduleAlarm(int id) {
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(this, Receiver.class);
+
+
+        //get intent from schedule.id
+        //input filter
+        //implement filter method
+        //
+        PendingIntent pending = PendingIntent.getBroadcast(this, id, intent, 0);
+
+
+        manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager.cancel(pending);
+
+
     }
 }

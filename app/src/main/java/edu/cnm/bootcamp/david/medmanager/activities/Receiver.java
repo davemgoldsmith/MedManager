@@ -15,14 +15,11 @@ public class Receiver extends WakefulBroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-    if (alarmUri == null) {
-      alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-    }
-    Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
-    ringtone.play();
-    ComponentName comp = new ComponentName(context.getPackageName(),
+
+      ComponentName comp =
+              new ComponentName(context.getPackageName(),
         Service.class.getName());
+
     startWakefulService(context, (intent.setComponent(comp)));
     setResultCode(Activity.RESULT_OK);
   }

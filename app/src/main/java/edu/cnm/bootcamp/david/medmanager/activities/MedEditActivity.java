@@ -1,5 +1,7 @@
 package edu.cnm.bootcamp.david.medmanager.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.cnm.bootcamp.david.medmanager.R;
 import edu.cnm.bootcamp.david.medmanager.entities.Medication;
@@ -27,7 +32,11 @@ import edu.cnm.bootcamp.david.medmanager.helpers.OrmHelper;
 public class MedEditActivity extends AppCompatActivity {
 
     private OrmHelper dbHelper = null;
-    private Schedule currentSched =  null;
+    private Schedule currentSched = null;
+
+    public static final String SCHEDULE_ID_KEY = MedEditActivity.class.getName() + ".scheduleId";
+    public static final String ALARM_TITLE_KEY = MedEditActivity.class.getName() + ".alarmTitle";
+
 
     private synchronized OrmHelper getHelper() {
         if (dbHelper == null) {
@@ -41,6 +50,18 @@ public class MedEditActivity extends AppCompatActivity {
             OpenHelperManager.releaseHelper();
             dbHelper = null;
         }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        getHelper();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseHelper();
     }
 
     protected void timeSpinner() {
@@ -62,7 +83,7 @@ public class MedEditActivity extends AppCompatActivity {
         int scheduleId = intent.getIntExtra(MedListActivity.MED_MANAGER_SCHEDULE_ID, 0);
         if (scheduleId != 0) {
             try {
-                Dao <Schedule, Integer> dao = getHelper().getScheduleDao();
+                Dao<Schedule, Integer> dao = getHelper().getScheduleDao();
                 currentSched = dao.queryForId(scheduleId);
                 EditText editText = (EditText) findViewById(R.id.editText);
                 editText.setText(currentSched.getName());
@@ -79,10 +100,10 @@ public class MedEditActivity extends AppCompatActivity {
                 }
                 Button button = (Button) findViewById(R.id.button);
                 button.setText(R.string.update_sched);
-                TextView textview = (TextView)findViewById(R.id.textView3);
+                TextView textview = (TextView) findViewById(R.id.textView3);
                 textview.setText(R.string.update_med);
 
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 ex.printStackTrace();
                 scheduleId = 0;
                 currentSched = null;
@@ -101,7 +122,7 @@ public class MedEditActivity extends AppCompatActivity {
             Button button = (Button) findViewById(R.id.button);
             button.setText(R.string.create_sched);
 
-            TextView textview = (TextView)findViewById(R.id.textView3);
+            TextView textview = (TextView) findViewById(R.id.textView3);
             textview.setText(R.string.create_med);
         }
 
@@ -111,7 +132,7 @@ public class MedEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     Dao<Schedule, Integer> dao = getHelper().getScheduleDao();
-                    Schedule schedule = (currentSched == null ) ? new Schedule() : currentSched;
+                    Schedule schedule = (currentSched == null) ? new Schedule() : currentSched;
 
                     EditText editText = (EditText) findViewById(R.id.editText);
                     schedule.setName(editText.getText().toString());
@@ -123,12 +144,12 @@ public class MedEditActivity extends AppCompatActivity {
 
                     schedule.setTime(spinner.getSelectedItem().toString());
 
-                    if ( currentSched == null) {
+                    if (currentSched == null) {
                         dao.create(schedule);
                     } else {
                         dao.update(schedule);
                     }
-
+                scheduleAlarm(schedule.getId(), schedule.getName());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -137,4 +158,40 @@ public class MedEditActivity extends AppCompatActivity {
         });
     }
 
+
+    private void scheduleAlarm(int id, String title) {
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        TextView text = (TextView) findViewById(R.id.alarmText);
+        Intent intent = new Intent(this, Receiver.class);
+        intent.putExtra(SCHEDULE_ID_KEY, id);
+        intent.putExtra(ALARM_TITLE_KEY, title);
+
+        //get intent from schedule.id
+        //input filter
+        //implement filter method
+        //
+        PendingIntent pending = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+        Calendar calendar = Calendar.getInstance();
+
+        // regex to parse hour and minute from spinner id
+
+        String[] parts = ((String) spinner.getSelectedItem()).split(":");
+
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
+
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+
+        manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pending);
+
+
+    }
 }
+
+
