@@ -1,6 +1,6 @@
-# MedManager
 
-#Medication Manager Application.
+
+# Medication Manager Application.
 
 
 Intent of application was to create an easy to use medication reminder 
