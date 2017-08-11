@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -28,8 +29,15 @@ import edu.cnm.bootcamp.david.medmanager.helpers.AndroidDatabaseManager;
 import edu.cnm.bootcamp.david.medmanager.helpers.OrmHelper;
 import edu.cnm.bootcamp.david.medmanager.helpers.ScheduleAdapter;
 
+//Author Dave Goldsmith
+//Deep Dive Bootcamp
+//Med Manager application that sets alarms for medications.
+//
+//Main activity of application.  From this activity, a current list of medications is displayed.
+//From this activity, user is able to select a medication to
 public class MedListActivity extends AppCompatActivity {
 
+    public static final String MED_MANAGER_SCHEDULE_ID = "medManager.scheduleId";
     private OrmHelper dbHelper = null;
     private Schedule currentSched = null;
 
@@ -49,14 +57,25 @@ public class MedListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+        getHelper();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseHelper();
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getHelper().getWritableDatabase().close();
         setContentView(R.layout.activity_medlist);
 
         final ListView list = ((ListView) findViewById(R.id.queryList));
-
-        timeSpinner();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,27 +86,36 @@ public class MedListActivity extends AppCompatActivity {
                     list.clearChoices();
                     list.requestLayout();
                     //disable buttons del and adjust
-                    ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(false);
-                    ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(false);
                     ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(false);
+
+                    Button buttonAddNew = (Button) findViewById(R.id.buttonAddNew);
+                    buttonAddNew.setText(R.string.add_med);
                 }else {
                     currentSched = (Schedule) parent.getItemAtPosition(position);
                     view.setSelected(true);
-                    //enable buttons del and adjust
-                    ((Button) findViewById(R.id.buttonAdjustMed)).setEnabled(true);
-                    ((Button) findViewById(R.id.buttonschedadjust)).setEnabled(true);
+                    //enable buttons del
                     ((Button) findViewById(R.id.buttonDeleteMed)).setEnabled(true);
+
+                    Button buttonAddNew = (Button) findViewById(R.id.buttonAddNew);
+                    buttonAddNew.setText(R.string.adjust_med);
+
                 }
             }
         });
 
-                //takes to MedEditActivity to add a row to db
+        //takes to MedEditActivity to add or adjust a medication
+        //this is determined by whether a medication has been selected or not
+        //if a medication is selected, then the pop up screen will allow for an update
+        //otherwise, if no medication is selected, then the pop up screen will allow for
+        //the addition of a new medication
         Button buttonAddNew = (Button) findViewById(R.id.buttonAddNew);
         buttonAddNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent medEditActivity = new Intent(MedListActivity.this, MedEditActivity.class);
+                medEditActivity.putExtra(MED_MANAGER_SCHEDULE_ID, (currentSched == null ) ? 0 : currentSched.getId());
                 startActivity(medEditActivity);
+
             }
         });
 
@@ -100,14 +128,6 @@ public class MedListActivity extends AppCompatActivity {
             }
         });
 
-        // takes to SchedulerAcitvity to allow setting of alarm
-        Button buttonSchedAdjust = (Button) findViewById(R.id.buttonschedadjust);
-        buttonSchedAdjust.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent scheduler = new Intent (MedListActivity.this, SchedulerActivity.class);
-                startActivity(scheduler);
-            }
-        });
 
         // deletes current(highlighted) med from the database
         Button buttonDeleteMed = (Button) findViewById(R.id.buttonDeleteMed);
@@ -123,17 +143,15 @@ public class MedListActivity extends AppCompatActivity {
                 loadSchedules();
             }
         });
-
-
    }
 
-    protected void timeSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        String[] times = getResources().getStringArray(R.array.time);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_dropdown, times);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+//    protected void timeSpinner() {
+//        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+//        String[] times = getResources().getStringArray(R.array.time);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_dropdown, times);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//    }
 
 //    final ToggleButton toggle = (ToggleButton) findViewById(R.id.alarmToggle);
 //        toggle.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +182,7 @@ public class MedListActivity extends AppCompatActivity {
 //        });
 
 
-
+    //Original loading of db schedule
     @NonNull
     private void loadSchedules() {
         try {
@@ -181,8 +199,7 @@ public class MedListActivity extends AppCompatActivity {
         }
     }
 
-
-
+    //Rebuilds schedule upon resumption of this activity
     @Override
     protected void onResume() {
         super.onResume();

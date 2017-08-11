@@ -80,30 +80,20 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     /* seed data */
     private void populateDB() throws SQLException {
 
-//        Medication med = new Medication ();
-//        med.setName("Groovy Drug");
-//        //med.setDosage("50");
-//        //med.setFrequency("3");
-//        getMedicationDao().create(med);
+
 
         Schedule sched = new Schedule();
         sched.setName("Groovy Drug");
-        sched.setTime("0800");
-//        sched.setMedication(med);
+        sched.setTime("08:00");
         sched.setDosage("50");
         getScheduleDao().create(sched);
 
 
-//        med = new Medication ();
-//        med.setName("Happy Drug");
-//       // med.setDosage("10");
-//        //med.setFrequency("2");
-//        getMedicationDao().create(med);
+
 
         sched = new Schedule();
-        sched.setTime("0900");
+        sched.setTime("09:00");
         sched.setName("Happy Drug");
-      //  sched.setMedication(med);
         sched.setDosage("50");
         getScheduleDao().create (sched);
 

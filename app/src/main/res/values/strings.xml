@@ -15,7 +15,7 @@
     <string name="adjust">Adjust</string>
     <string name="med_list">Med List</string>
     <string name="my_meds">My Meds</string>
-    <string name="add_med">Add Med</string>
+
     <string name="dosage">Dosage</string>
     <string name="frequency">Frequency</string>
     <string name="name">Name</string>
@@ -28,6 +28,12 @@
     <string name="alarm_notification">Alarm Notification</string>
     <string name="database">Database</string>
     <string name="delete_med">Delete Med</string>
+    <string name="create_sched">Create</string>
+    <string name="update_sched">Update</string>
+    <string name="create_med">Create a new medication</string>
+    <string name="update_med">Update a current medication</string>
+    <string name="add_med">Add Med</string>
+    <string name="adjust_med">Adjust Med</string>
 
 
 </resources>
